@@ -27,7 +27,7 @@ class Barkdog::Exporter
     monitor_by_name = {}
 
     monitors.each do |m|
-      name = m['name']
+      name = m.delete('name')
 
       if monitor_by_name[name]
         raise "Duplicate monitor name exists: #{name}"

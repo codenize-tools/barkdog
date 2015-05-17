@@ -4,6 +4,6 @@ class Barkdog::DSL
   end
 
   def self.parse(dsl, path, options = {})
-    #Barkdog::DSL::Context.eval(dsl, path, options).result
+    Barkdog::DSL::Context.eval(dsl, path, options).result
   end
 end
