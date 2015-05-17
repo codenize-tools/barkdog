@@ -2,6 +2,7 @@ require 'dogapi'
 
 module Barkdog; end
 
+require 'barkdog/client'
 require 'barkdog/dsl'
 require 'barkdog/dsl/context'
 require 'barkdog/dsl/context/monitor'
