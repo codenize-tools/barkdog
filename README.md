@@ -1,6 +1,8 @@
 # Barkdog
 
-TODO: Write a gem description
+Barkdog is a tool to manage [Datadog monitors](http://docs.datadoghq.com/guides/monitoring/).
+
+It defines Datadog monitors using Ruby DSL, and updates monitors according to DSL.
 
 ## Installation
 
@@ -20,12 +22,43 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```sh
+export BARKDOG_API_KEY=...
+export BARKDOG_APP_KEY=...
 
-## Contributing
+barkdog -e -o Barkfile
+vi Barkfile
+barkdog -a --dry-run
+barkdog -a
+```
 
-1. Fork it ( https://github.com/[my-github-username]/barkdog/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+## Help
+
+```
+Usage: barkdog [options]
+        --api-key API_KEY
+        --app-key APP_KEY
+    -a, --apply
+    -f, --file FILE
+        --dry-run
+    -e, --export
+    -o, --output FILE
+        --no-color
+        --debug
+    -h, --help
+```
+
+## Barkfile example
+
+```ruby
+monitor "Check load avg", :type=>"metric alert" do
+  query "avg(last_5m):avg:ddstat.load_avg.1m{host:i-XXXXXXXX} > 1"
+  message "@winebarrel@example.net"
+  options do
+    notify_no_data true
+    no_data_timeframe 2
+    notify_audit true
+    silenced({})
+  end
+end
+```

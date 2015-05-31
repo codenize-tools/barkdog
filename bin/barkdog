@@ -63,10 +63,10 @@ begin
   case mode
   when :export
     if output_file == '-'
-      logger.info('# Export Datadog Monitors')
+      logger.info('# Export Datadog monitors')
       puts client.export
     else
-      logger.info("Export Datadog Monitors to `#{output_file}`")
+      logger.info("Export Datadog monitors to `#{output_file}`")
       open(output_file, 'wb') {|f| f.puts client.export }
     end
   when :apply
@@ -74,7 +74,7 @@ begin
       raise "No Barkfile found (looking for: #{file})"
     end
 
-    msg = "Apply `#{file}` to Datadog Monitors"
+    msg = "Apply `#{file}` to Datadog monitors"
     msg << ' (dry-run)' if options[:dry_run]
     logger.info(msg)
 
