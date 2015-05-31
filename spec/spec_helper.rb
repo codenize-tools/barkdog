@@ -8,6 +8,10 @@ RSpec.configure do |config|
   config.before(:each) do
     barkdog { '' }
   end
+
+  config.after(:all) do
+    barkdog { '' }
+  end
 end
 
 def barkdog_client(options = {})
