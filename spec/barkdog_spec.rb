@@ -38,7 +38,8 @@ end
   end
 
   context 'when delete monitors' do
-    before { barkdog { '' } }
-    it { is_expected.to eq '' }
+    let(:expected_dsl) { '' }
+    before { barkdog { expected_dsl } }
+    it { is_expected.to eq expected_dsl }
   end
 end
