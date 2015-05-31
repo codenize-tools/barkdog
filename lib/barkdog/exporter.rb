@@ -1,8 +1,9 @@
 class Barkdog::Exporter
   EXCLUDE_KEYS = %w(
-   overall_state
-   creator
-   org_id
+    overall_state
+    creator
+    org_id
+    multi
   )
 
   class << self

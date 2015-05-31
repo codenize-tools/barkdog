@@ -19,6 +19,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'dogapi'
+  spec.add_dependency 'term-ansicolor'
+
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
 end

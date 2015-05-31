@@ -35,6 +35,12 @@ class Barkdog::DSL::Context
       raise "Monitor `#{name}` is already defined"
     end
 
+    fixed_options.keys.each do |key|
+      unless Barkdog::FIXED_OPTION_KEYS.include?(key.to_s)
+        raise "Monitor `#{name}`: `#{key}` is invalid fixed option key"
+      end
+    end
+
     fixed_options = Hash[fixed_options.map {|k, v| [k.to_s, v] }]
     attrs = Barkdog::DSL::Context::Monitor.new(name, &block).result
     @result[name] = fixed_options.merge(attrs)

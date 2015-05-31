@@ -28,7 +28,7 @@ class Barkdog::DSL::Converter
   end
 
   def output_monitor(monitor_name, attrs)
-    fixed_options = Hash[%w(type multi).map {|k| [k.to_sym, attrs[k]] }]
+    fixed_options = Hash[Barkdog::FIXED_OPTION_KEYS.map {|k| [k.to_sym, attrs[k]] }]
     query = attrs['query']
     message = attrs['message']
     monitor_options = attrs['options'] || {}

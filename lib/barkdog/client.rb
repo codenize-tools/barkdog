@@ -1,4 +1,6 @@
 class Barkdog::Client
+  include Barkdog::Logger::Helper
+
   def initialize(options = {})
     @options = options
 
@@ -7,6 +9,7 @@ class Barkdog::Client
     raise 'Application Key does not exist' unless app_key
 
     @dog = Dogapi::Client.new(api_key, app_key)
+    @driver = Barkdog::Driver.new(@dog, @options)
   end
 
   def export(export_options = {})
@@ -23,9 +26,47 @@ class Barkdog::Client
   def walk(file)
     expected = load_file(file)
     actual = Barkdog::Exporter.export(@dog, @options)
+    walk_monitors(expected, actual)
+  end
 
-    # XXX:
-    [expected, actual]
+  def walk_monitors(expected, actual)
+    updated = false
+
+    expected.each do |name, expected_monitor|
+      actual_monitor = actual.delete(name)
+
+      if actual_monitor
+        updated = walk_monitor(name, expected_monitor, actual_monitor) || updated
+      else
+        updated = @driver.create_monitor(name, expected_monitor) || updated
+      end
+    end
+
+    actual.each do |name, actual_monitor|
+      updated = @driver.delete_monitor(name, actual_monitor) || updated
+    end
+
+    updated
+  end
+
+  def walk_monitor(name, expected, actual)
+    updated = false
+
+    Barkdog::FIXED_OPTION_KEYS.each do |key|
+      if expected[key] != actual[key]
+        log(:warn, "#{name}: `#{key}` can not be changed (Changes has been ignored)", :color => :yellow)
+        return updated
+      end
+    end
+
+    actual_without_id = actual.dup
+    monitor_id = actual_without_id.delete('id')
+
+    if expected != actual_without_id
+      updated = @driver.update_monitor(name, expected.merge('id' => monitor_id)) || updated
+    end
+
+    updated
   end
 
   def load_file(file)
