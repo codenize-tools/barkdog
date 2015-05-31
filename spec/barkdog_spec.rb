@@ -36,4 +36,9 @@ end
   context 'when create monitors' do
     it { is_expected.to eq actual_dsl }
   end
+
+  context 'when delete monitors' do
+    before { barkdog { '' } }
+    it { is_expected.to eq '' }
+  end
 end
