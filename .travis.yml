@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+- 2.0.0
+script:
+- bundle install
+- bundle exec rake
+env:
+  global:
+  - secure: "Zb/sZn5bAwqnUhSma4BqQFVaVO9wAdjlTUpl4aHLlVp9V+pRu4NVunEsvtTIZ0Y759Jw2s8BZzM7S8O2vcOSDf4D70RSrfKjyiQzBwK2NlwonAvN2lcD3AptBDxpXbvfLL2K7jSSM4/c8IUQjtJdYQooJ2nJWt/R4OTokHpp+sA="
+  - secure: "RxyKOUCe0+BgXThMPrHUYkddMd3mafV97qiXZfCzrP9X/kKEOTg+wNiR3Qkowjh6Ou9ultoXwEfBlwlQ44f9y/VV3qeaHjtoSgH7NVXRzEp5jLnEWyTIBwj4o4BEYHJNKRzGDsWC5TTkRgQQCOfwKeUlKPXTtx1tcN3dZtAEPqY="
+  - secure: "NYWq1B0s381EcvtHX2r3G8Oe3ZVfgRRwneQDI+G9HR2QIIM0sN+49agp5kSXGplSrNX2Swt7cFERPQ4YZ3o2vSnX90o7lnqZcfCh8bmOaLeV38AHlsOb5Rf9tyUyQPp+NyYUHNngUxdzrM+j8csTKwi5O+KpZKC2YedyM86BIso="
+  - secure: "Q2jYtrBEThr72h2HAImZXQuKbPltat5MbHt8DEl/oksv8bzqZbD5HxWVVQIBkkmKp9aefPdbDJ1hV5Y2zyo3KjYFCrXSQox11Lq3n4I0G3jaK8Ge2K+y1p/q55CBWTPOJrzHdgfEivXVwzYRvl6RuSqFVwiTdTB6kltxSxAOh4g="
