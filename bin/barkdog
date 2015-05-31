@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+$: << File.expand_path("#{File.dirname __FILE__}/../lib")
+
+require 'rubygems'
+require 'barkdog'
+require 'optparse'
+
+Version = Barkdog::VERSION
+DEFAULT_FILENAME = 'Barkfile'
+
+mode = nil
+file = DEFAULT_FILENAME
+output_file = '-'
+
+options = {
+  :api_key         => ENV['BARKDOG_API_KEY'],
+  :application_key => ENV['BARKDOG_APP_KEY'],
+  :dry_run         => false,
+  :color           => true,
+  :debug           => false,
+}
+
+ARGV.options do |opt|
+  begin
+    opt.on(''  , '--api-key API_KEY') {|v| options[:api_key]          = v       }
+    opt.on(''  , '--app-key APP_KEY') {|v| options[:application_key]  = v       }
+    opt.on('-a', '--apply')           {    mode                       = :apply   }
+    opt.on('-f', '--file FILE')       {|v| file                       = v        }
+    opt.on(''  , '--dry-run')         {    options[:dry_run]          = true     }
+    opt.on('-e', '--export')          {    mode                       = :export  }
+    opt.on('-o', '--output FILE')     {|v| output_file                = v        }
+    opt.on(''  , '--no-color')        {    options[:color]            = false    }
+    opt.on(''  , '--debug')           {    options[:debug]            = true     }
+
+    opt.on('-h', '--help') do
+      puts opt.help
+      exit 1
+    end
+
+    opt.parse!
+
+    unless mode
+      puts opt.help
+      exit 1
+    end
+
+    if not options[:api_key] or not options[:application_key]
+      raise 'api-key and app-key is required'
+    end
+  rescue => e
+    $stderr.puts("[ERROR] #{e.message}")
+    exit 1
+  end
+end
+
+String.colorize = options[:color]
+
+begin
+  logger = Barkdog::Logger.instance
+  logger.set_debug(options[:debug])
+  client = Barkdog::Client.new(options)
+
+  case mode
+  when :export
+    if output_file == '-'
+      logger.info('# Export Datadog Monitors')
+      puts client.export
+    else
+      logger.info("Export Datadog Monitors to `#{output_file}`")
+      open(output_file, 'wb') {|f| f.puts client.export }
+    end
+  when :apply
+    unless File.exist?(file)
+      raise "No Barkfile found (looking for: #{file})"
+    end
+
+    msg = "Apply `#{file}` to Datadog Monitors"
+    msg << ' (dry-run)' if options[:dry_run]
+    logger.info(msg)
+
+    updated = client.apply(file)
+
+    unless updated
+      logger.info('No change'.intense_blue)
+    end
+  end
+rescue => e
+  if options[:debug]
+    raise e
+  else
+    $stderr.puts("[ERROR] #{e.message}".red)
+    exit 1
+  end
+end
