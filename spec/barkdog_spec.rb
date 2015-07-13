@@ -7,9 +7,9 @@ monitor "my metric check", :type=>"metric alert" do
   query "avg(last_5m):avg:datadog.dogstatsd.packet.count{*} > 1"
   message "metric check message"
   options do
-    notify_no_data false
     no_data_timeframe 2
     notify_audit false
+    notify_no_data false
     silenced({})
   end
 end
@@ -18,14 +18,14 @@ monitor "my service check", :type=>"service check" do
   query "\"datadog.agent.up\".over(\"*\").last(2).count_by_status()"
   message "service check message"
   options do
-    notify_audit false
-    timeout_h 0
-    silenced({})
-    thresholds "warning"=>1, "ok"=>1, "critical"=>1
-    period 15
-    notify_no_data true
-    renotify_interval 0
     no_data_timeframe 2
+    notify_audit false
+    notify_no_data true
+    period 15
+    renotify_interval 0
+    silenced({})
+    thresholds "critical"=>1, "ok"=>1, "warning"=>1
+    timeout_h 0
   end
 end
     RUBY
@@ -50,9 +50,9 @@ monitor "my metric check", :type=>"metric alert" do
   query "avg(last_5m):avg:datadog.dogstatsd.packet.count{*} > 2"
   message "metric check message2"
   options do
-    notify_no_data true
     no_data_timeframe 3
     notify_audit true
+    notify_no_data true
     silenced "*"=>nil
   end
 end
@@ -61,14 +61,14 @@ monitor "my service check", :type=>"service check" do
   query "\"datadog.agent.up\".over(\"*\").last(3).count_by_status()"
   message "service check message2"
   options do
-    notify_audit true
-    timeout_h 1
-    silenced "*"=>nil
-    thresholds "warning"=>2, "ok"=>2, "critical"=>2
-    period 30
-    notify_no_data true
-    renotify_interval 1
     no_data_timeframe 3
+    notify_audit true
+    notify_no_data true
+    period 30
+    renotify_interval 1
+    silenced "*"=>nil
+    thresholds "critical"=>2, "ok"=>2, "warning"=>2
+    timeout_h 1
   end
 end
       RUBY
