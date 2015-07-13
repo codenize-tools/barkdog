@@ -37,25 +37,28 @@ class Barkdog::Driver
     updated
   end
 
-  def update_monitor(name, attrs)
+  def update_monitor(name, expected, actual)
     updated = false
-    log(:info, "Update Monitor: #{name}", :color => :green)
 
-    attrs.each do |key, value|
-      next if key == 'id'
-      log(:info, " set #{key}=#{value}", :color => :green)
-    end
+    diffy = Diffy::Diff.new(
+      Barkdog::DSL::Converter.convert({name => actual}),
+      Barkdog::DSL::Converter.convert({name => expected}),
+      :diff => "-u"
+    )
 
-    unless @options[:dry_run]
-      @dog.update_monitor(
-        attrs['id'],
-        attrs['query'],
-        :name => name,
-        :message => attrs['message'],
-        :options => attrs['options']
-      )
-
-      updated = true
+    if diffy.diff.size > 0
+      log(:info, "Update Monitor: #{name}", :color => :cyan)
+      log(:info, diffy.to_s(:color), :color => false )
+      unless @options[:dry_run]
+        @dog.update_monitor(
+          expected['id'],
+          expected['query'],
+          :name => name,
+          :message => expected['message'],
+          :options => expected['options']
+        )
+        updated = true
+      end
     end
 
     updated

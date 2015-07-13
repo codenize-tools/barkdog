@@ -2,6 +2,7 @@ require 'dogapi'
 require 'logger'
 require 'singleton'
 require 'term/ansicolor'
+require 'diffy'
 
 module Barkdog; end
 

@@ -51,17 +51,16 @@ end
   def output_monitor_options(monitor_options)
     options_body = monitor_options.map {|key, value|
       value_is_hash = value.is_a?(Hash)
-      value = value.inspect
 
       if value_is_hash
-        value = unbrace(value).strip
+        value = value.map{ |k,v| "#{k.inspect}=>#{v.inspect}" }.sort.join(", ")
         value = value.empty? ? '({})' : " #{value}"
       else
-        value = " #{value}"
+        value = " #{value.inspect}"
       end
 
       "#{key}#{value}"
-    }.join("\n    ")
+    }.sort.join("\n    ")
 
     <<-RUBY.chomp
   options do

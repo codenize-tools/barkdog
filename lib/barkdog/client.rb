@@ -63,7 +63,7 @@ class Barkdog::Client
     monitor_id = actual_without_id.delete('id')
 
     if expected != actual_without_id
-      updated = @driver.update_monitor(name, expected.merge('id' => monitor_id)) || updated
+      updated = @driver.update_monitor(name, expected.merge('id' => monitor_id), actual) || updated
     end
 
     updated
