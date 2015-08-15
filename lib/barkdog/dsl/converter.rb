@@ -10,12 +10,6 @@ class Barkdog::DSL::Converter
 
   def convert
     output_monitors(@exported)
-    #[
-    #  output_users(@exported[:users]),
-    #  output_groups(@exported[:groups]),
-    #  output_roles(@exported[:roles]),
-    #  output_instance_profiles(@exported[:instance_profiles]),
-    #].join("\n")
   end
 
   private
