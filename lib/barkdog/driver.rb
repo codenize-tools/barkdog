@@ -10,6 +10,10 @@ class Barkdog::Driver
     updated = false
     log(:info, "Create Monitor: #{name}", :color => :cyan)
 
+    if @options[:ignore_silenced]
+      attrs['options'].delete('silenced')
+    end
+
     unless @options[:dry_run]
       @dog.monitor(
         attrs['type'],
@@ -39,6 +43,11 @@ class Barkdog::Driver
 
   def update_monitor(name, expected, actual)
     updated = false
+
+    if @options[:ignore_silenced]
+      expected['options'].delete('silenced')
+      actual['options'].delete('silenced')
+    end
 
     diffy = Diffy::Diff.new(
       Barkdog::DSL::Converter.convert({name => actual}),

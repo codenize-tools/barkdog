@@ -16,6 +16,7 @@ options = {
   :api_key         => ENV['BARKDOG_API_KEY'],
   :application_key => ENV['BARKDOG_APP_KEY'],
   :dry_run         => false,
+  :ignore_silenced => false,
   :color           => true,
   :debug           => false,
 }
@@ -27,6 +28,7 @@ ARGV.options do |opt|
     opt.on('-a', '--apply')           {    mode                       = :apply   }
     opt.on('-f', '--file FILE')       {|v| file                       = v        }
     opt.on(''  , '--dry-run')         {    options[:dry_run]          = true     }
+    opt.on(''  , '--ignore-silenced') {    options[:ignore_silenced]  = true     }
     opt.on('-e', '--export')          {    mode                       = :export  }
     opt.on('-o', '--output FILE')     {|v| output_file                = v        }
     opt.on(''  , '--no-color')        {    options[:color]            = false    }
