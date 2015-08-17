@@ -38,6 +38,10 @@ class Barkdog::Exporter
         m.delete(key)
       end
 
+      if @options[:ignore_silenced]
+        m['options'].delete('silenced')
+      end
+
       monitor_by_name[name] = m
     end
 
