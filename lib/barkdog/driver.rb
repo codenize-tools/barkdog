@@ -57,7 +57,8 @@ class Barkdog::Driver
 
     if diffy.diff.size > 0
       log(:info, "Update Monitor: #{name}", :color => :cyan)
-      log(:info, diffy.to_s(:color), :color => false )
+      log(:info, diffy.to_s(@options[:color] ? :color : :text), :color => false)
+
       unless @options[:dry_run]
         @dog.update_monitor(
           expected['id'],
