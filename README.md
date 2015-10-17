@@ -82,6 +82,22 @@ end
 
 monitor "Check load avg", :type=>"metric alert" do
   context.message = "@winebarrel@example.net"
-  include_template "cpu template", :target => "ddstat"
+  include_template "cpu template", :target=>"ddstat"
+end
+
+template "basic monitor" do
+  monitor "#{target} cpu" do
+    query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
+    ...
+  end
+
+  # any other monitor
+  monitor ...
+end
+
+"myhost".tap do |host|
+  include_template "basic monitor", :target=>host
+  include_template "mysql monitor", :target=>host
+  ...
 end
 ```
