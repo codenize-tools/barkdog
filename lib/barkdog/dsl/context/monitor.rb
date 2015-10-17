@@ -1,6 +1,9 @@
 class Barkdog::DSL::Context::Monitor
-  def initialize(name, &block)
+  include Barkdog::TemplateHelper
+
+  def initialize(context, name, &block)
     @monitor_name = name
+    @context = context.merge(:monitor_name => name)
     @result = {}
     instance_eval(&block)
   end
@@ -18,6 +21,6 @@ class Barkdog::DSL::Context::Monitor
   end
 
   def options(&block)
-    @result['options'] = Barkdog::DSL::Context::Monitor::Options.new(&block).result
+    @result['options'] = Barkdog::DSL::Context::Monitor::Options.new(@context, &block).result
   end
 end

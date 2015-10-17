@@ -65,3 +65,23 @@ monitor "Check load avg", :type=>"metric alert" do
   end
 end
 ```
+
+### Use template
+
+```ruby
+template "cpu template" do
+  query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
+  message context.message
+  options do
+    notify_no_data true
+    no_data_timeframe 2
+    notify_audit true
+    silenced({})
+  end
+end
+
+monitor "Check load avg", :type=>"metric alert" do
+  context.message = "@winebarrel@example.net"
+  include_template "cpu template", :target => "ddstat"
+end
+```

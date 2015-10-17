@@ -3,12 +3,14 @@ require 'logger'
 require 'singleton'
 require 'term/ansicolor'
 require 'diffy'
+require 'hashie'
 
 module Barkdog; end
 
 require 'barkdog/ext/string_ext'
 require 'barkdog/constants'
 require 'barkdog/logger'
+require 'barkdog/template_helper'
 require 'barkdog/client'
 require 'barkdog/driver'
 require 'barkdog/dsl'
