@@ -7,6 +7,10 @@ It defines Datadog monitors using Ruby DSL, and updates monitors according to DS
 [![Gem Version](https://badge.fury.io/rb/barkdog.svg)](http://badge.fury.io/rb/barkdog)
 [![Build Status](https://travis-ci.org/winebarrel/barkdog.svg?branch=master)](https://travis-ci.org/winebarrel/barkdog)
 
+## Notice
+* `>= 0.1.3`
+  * Support Template 
+
 ## Installation
 
 Add this line to your application's Gemfile:
