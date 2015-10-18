@@ -1,4 +1,6 @@
 class Barkdog::DSL::Context
+  include Barkdog::TemplateHelper
+
   def self.eval(dsl, path, options = {})
     self.new(path, options) {
       eval(dsl, binding, path)
@@ -11,10 +13,21 @@ class Barkdog::DSL::Context
     @path = path
     @options = options
     @result = {}
+
+    @context = Hashie::Mash.new(
+      :path => path,
+      :options => options,
+      :templates => {}
+    )
+
     instance_eval(&block)
   end
 
   private
+
+  def template(name, &block)
+    @context.templates[name.to_s] = block
+  end
 
   def require(file)
     barkfile = (file =~ %r|\A/|) ? file : File.expand_path(File.join(File.dirname(@path), file))
@@ -42,7 +55,7 @@ class Barkdog::DSL::Context
     end
 
     fixed_options = Hash[fixed_options.map {|k, v| [k.to_s, v] }]
-    attrs = Barkdog::DSL::Context::Monitor.new(name, &block).result
+    attrs = Barkdog::DSL::Context::Monitor.new(@context, name, &block).result
     @result[name] = fixed_options.merge(attrs)
   end
 end

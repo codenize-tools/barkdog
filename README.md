@@ -7,6 +7,10 @@ It defines Datadog monitors using Ruby DSL, and updates monitors according to DS
 [![Gem Version](https://badge.fury.io/rb/barkdog.svg)](http://badge.fury.io/rb/barkdog)
 [![Build Status](https://travis-ci.org/winebarrel/barkdog.svg?branch=master)](https://travis-ci.org/winebarrel/barkdog)
 
+## Notice
+* `>= 0.1.3`
+  * Support Template 
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -63,5 +67,41 @@ monitor "Check load avg", :type=>"metric alert" do
     notify_audit true
     silenced({})
   end
+end
+```
+
+### Use template
+
+```ruby
+template "cpu template" do
+  query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
+  message context.message
+  options do
+    notify_no_data true
+    no_data_timeframe 2
+    notify_audit true
+    silenced({})
+  end
+end
+
+monitor "Check load avg", :type=>"metric alert" do
+  context.message = "@winebarrel@example.net"
+  include_template "cpu template", :target=>"ddstat"
+end
+
+template "basic monitor" do
+  monitor "#{target} cpu" do
+    query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
+    ...
+  end
+
+  # any other monitor
+  monitor ...
+end
+
+"myhost".tap do |host|
+  include_template "basic monitor", :target=>host
+  include_template "mysql monitor", :target=>host
+  ...
 end
 ```

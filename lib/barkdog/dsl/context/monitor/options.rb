@@ -1,5 +1,8 @@
 class Barkdog::DSL::Context::Monitor::Options
-  def initialize(&block)
+  include Barkdog::TemplateHelper
+
+  def initialize(context, &block)
+    @context = context.dup
     @result = {}
     instance_eval(&block)
   end
