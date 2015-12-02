@@ -90,7 +90,7 @@ monitor "Check load avg", :type=>"metric alert" do
 end
 
 template "basic monitor" do
-  monitor "#{target} cpu" do
+  monitor "#{context.target} cpu" do
     query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
     ...
   end
