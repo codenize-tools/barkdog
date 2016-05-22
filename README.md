@@ -105,3 +105,6 @@ end
   ...
 end
 ```
+
+## Similar tools
+* [Codenize.tools](http://codenize.tools/)
