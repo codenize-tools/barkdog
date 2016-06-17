@@ -51,6 +51,7 @@ Usage: barkdog [options]
     -e, --export
     -o, --output FILE
         --no-color
+        --no-delete
         --debug
     -h, --help
 ```

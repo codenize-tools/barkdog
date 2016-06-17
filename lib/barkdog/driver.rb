@@ -31,6 +31,8 @@ class Barkdog::Driver
   end
 
   def delete_monitor(name, attrs)
+    return false unless @options[:delete]
+
     updated = false
     log(:info, "Delete Monitor: #{name}", :color => :red)
 
