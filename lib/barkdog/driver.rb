@@ -47,8 +47,8 @@ class Barkdog::Driver
     updated = false
 
     if @options[:ignore_silenced]
-      expected['options'].delete('silenced')
-      actual['options'].delete('silenced')
+      expected['options'].delete('silenced') if expected['options']
+      actual['options'].delete('silenced') if actual['options']
     end
 
     diffy = Diffy::Diff.new(
