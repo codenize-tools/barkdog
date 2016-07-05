@@ -10,7 +10,7 @@ class Barkdog::Client
 
     # api_key, application_key=nil, host=nil, device=nil, silent=true, timeout=nil
     # We force silent to false so any exceptions get propated back out and we fail loudly.
-    @dog = Dogapi::Client.new(api_key, app_key, nil, nil, false)
+    @dog = Dogapi::Client.new(api_key, app_key, nil, nil, false, @options[:datadog_timeout])
     @driver = Barkdog::Driver.new(@dog, @options)
   end
 
