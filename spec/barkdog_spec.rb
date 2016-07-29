@@ -7,6 +7,7 @@ monitor "my metric check", :type=>"metric alert" do
   query "avg(last_5m):avg:datadog.dogstatsd.packet.count{*} > 1"
   message "metric check message"
   options do
+    locked false
     no_data_timeframe 2
     notify_audit false
     notify_no_data false
@@ -18,6 +19,7 @@ monitor "my service check", :type=>"service check" do
   query "\"datadog.agent.up\".over(\"*\").last(2).count_by_status()"
   message "service check message"
   options do
+    locked false
     no_data_timeframe 2
     notify_audit false
     notify_no_data true
@@ -47,6 +49,7 @@ template 'my metric check' do
   query "avg(last_5m):avg:datadog.dogstatsd.packet.count{*} > 1"
   message "metric check message"
   options do
+    locked false
     no_data_timeframe context.no_data_timeframe
     notify_audit false
     notify_no_data false
@@ -55,6 +58,7 @@ template 'my metric check' do
 end
 
 template "my service check options" do
+  locked false
   no_data_timeframe 2
   notify_audit false
   notify_no_data true
@@ -96,6 +100,7 @@ monitor "my metric check", :type=>"metric alert" do
   query "avg(last_5m):avg:datadog.dogstatsd.packet.count{*} > 2"
   message "metric check message2"
   options do
+    locked false
     no_data_timeframe 3
     notify_audit true
     notify_no_data true
@@ -107,6 +112,7 @@ monitor "my service check", :type=>"service check" do
   query "\"datadog.agent.up\".over(\"*\").last(3).count_by_status()"
   message "service check message2"
   options do
+    locked false
     no_data_timeframe 3
     notify_audit true
     notify_no_data true
