@@ -11,6 +11,10 @@ DEFAULT_FILENAME = 'Barkfile'
 mode = nil
 file = DEFAULT_FILENAME
 output_file = '-'
+MAGIC_COMMENT = <<-EOS
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+EOS
 
 options = {
   :api_key         => ENV['BARKDOG_API_KEY'],
@@ -69,7 +73,10 @@ begin
       puts client.export
     else
       logger.info("Export Datadog monitors to `#{output_file}`")
-      open(output_file, 'wb') {|f| f.puts client.export }
+      open(output_file, 'wb') do |f|
+        f.puts MAGIC_COMMENT
+        f.puts client.export
+      end
     end
   when :apply
     unless File.exist?(file)

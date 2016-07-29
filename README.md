@@ -62,6 +62,7 @@ monitor "Check load avg", :type=>"metric alert" do
   query "avg(last_5m):avg:ddstat.load_avg.1m{host:i-XXXXXXXX} > 1"
   message "@winebarrel@example.net"
   options do
+    locked false
     notify_no_data true
     no_data_timeframe 2
     notify_audit true
@@ -77,6 +78,7 @@ template "cpu template" do
   query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
   message context.message
   options do
+    locked false
     notify_no_data true
     no_data_timeframe 2
     notify_audit true
@@ -90,7 +92,7 @@ monitor "Check load avg", :type=>"metric alert" do
 end
 
 template "basic monitor" do
-  monitor "#{target} cpu" do
+  monitor "#{context.target} cpu" do
     query "avg(last_5m):avg:#{context.target}.load_avg.1m{host:i-XXXXXXXX} > 1"
     ...
   end
@@ -105,3 +107,6 @@ end
   ...
 end
 ```
+
+## Similar tools
+* [Codenize.tools](http://codenize.tools/)
