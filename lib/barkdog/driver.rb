@@ -15,7 +15,7 @@ class Barkdog::Driver
     end
 
     unless @options[:dry_run]
-      @dog.monitor(
+      _, response = @dog.monitor(
         attrs['type'],
         attrs['query'],
         :name => name,
@@ -23,6 +23,7 @@ class Barkdog::Driver
         :options => attrs['options']
       )
 
+      validate_response(response)
       updated = true
     end
 
@@ -34,7 +35,8 @@ class Barkdog::Driver
     log(:info, "Delete Monitor: #{name}", :color => :red)
 
     unless @options[:dry_run]
-      @dog.delete_monitor(attrs['id'])
+      _, response = @dog.delete_monitor(attrs['id'])
+      validate_response(response)
       updated = true
     end
 
@@ -60,17 +62,31 @@ class Barkdog::Driver
       log(:info, diffy.to_s(@options[:color] ? :color : :text), :color => false)
 
       unless @options[:dry_run]
-        @dog.update_monitor(
+        _, response = @dog.update_monitor(
           expected['id'],
           expected['query'],
           :name => name,
           :message => expected['message'],
           :options => expected['options']
         )
+
+        validate_response(response)
         updated = true
       end
     end
 
     updated
+  end
+
+  private
+
+  def validate_response(response)
+    if response['warnings']
+      log(:warn, response['warnings'].join("\n"), :color => :yellow)
+    end
+
+    if response['errors']
+      raise response['errors'].join("\n")
+    end
   end
 end
