@@ -24,21 +24,23 @@ options = {
   :color           => true,
   :delete          => true,
   :debug           => false,
+  :datadog_timeout => nil
 }
 
 ARGV.options do |opt|
   begin
-    opt.on(''  , '--api-key API_KEY') {|v| options[:api_key]          = v       }
-    opt.on(''  , '--app-key APP_KEY') {|v| options[:application_key]  = v       }
-    opt.on('-a', '--apply')           {    mode                       = :apply   }
-    opt.on('-f', '--file FILE')       {|v| file                       = v        }
-    opt.on(''  , '--dry-run')         {    options[:dry_run]          = true     }
-    opt.on(''  , '--ignore-silenced') {    options[:ignore_silenced]  = true     }
-    opt.on('-e', '--export')          {    mode                       = :export  }
-    opt.on('-o', '--output FILE')     {|v| output_file                = v        }
-    opt.on(''  , '--no-color')        {    options[:color]            = false    }
-    opt.on(''  , '--no-delete')       {    options[:delete]           = false    }
-    opt.on(''  , '--debug')           {    options[:debug]            = true     }
+    opt.on(''  , '--api-key API_KEY')         {|v| options[:api_key]          = v        }
+    opt.on(''  , '--app-key APP_KEY')         {|v| options[:application_key]  = v        }
+    opt.on('-a', '--apply')                   {    mode                       = :apply   }
+    opt.on('-f', '--file FILE')               {|v| file                       = v        }
+    opt.on(''  , '--dry-run')                 {    options[:dry_run]          = true     }
+    opt.on(''  , '--ignore-silenced')         {    options[:ignore_silenced]  = true     }
+    opt.on('-e', '--export')                  {    mode                       = :export  }
+    opt.on('-o', '--output FILE')             {|v| output_file                = v        }
+    opt.on(''  , '--no-color')                {    options[:color]            = false    }
+    opt.on(''  , '--no-delete')               {    options[:delete]           = false    }
+    opt.on(''  , '--debug')                   {    options[:debug]            = true     }
+    opt.on(''  , '--datadog-timeout TIMEOUT') {|v| options[:datadog_timeout]  = v.to_i   }
 
     opt.on('-h', '--help') do
       puts opt.help
