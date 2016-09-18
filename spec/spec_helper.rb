@@ -1,5 +1,6 @@
 require 'barkdog'
 require 'tempfile'
+require 'rspec/match_fuzzy'
 
 BARKDOG_TEST_API_KEY = ENV['BARKDOG_TEST_API_KEY']
 BARKDOG_TEST_APP_KEY = ENV['BARKDOG_TEST_APP_KEY']
