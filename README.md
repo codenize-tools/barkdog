@@ -9,7 +9,7 @@ It defines Datadog monitors using Ruby DSL, and updates monitors according to DS
 
 ## Notice
 * `>= 0.1.3`
-  * Support Template 
+  * Support Template
 
 ## Installation
 

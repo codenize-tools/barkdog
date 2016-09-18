@@ -22,7 +22,6 @@ options = {
   :dry_run         => false,
   :ignore_silenced => false,
   :color           => true,
-  :delete          => true,
   :debug           => false,
   :datadog_timeout => nil
 }
@@ -38,7 +37,7 @@ ARGV.options do |opt|
     opt.on('-e', '--export')                  {    mode                       = :export  }
     opt.on('-o', '--output FILE')             {|v| output_file                = v        }
     opt.on(''  , '--no-color')                {    options[:color]            = false    }
-    opt.on(''  , '--no-delete')               {    options[:delete]           = false    }
+    opt.on(''  , '--no-delete')               {    options[:no_delete]        = true     }
     opt.on(''  , '--debug')                   {    options[:debug]            = true     }
     opt.on(''  , '--datadog-timeout TIMEOUT') {|v| options[:datadog_timeout]  = v.to_i   }
 
