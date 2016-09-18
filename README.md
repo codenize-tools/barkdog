@@ -48,11 +48,13 @@ Usage: barkdog [options]
     -a, --apply
     -f, --file FILE
         --dry-run
+        --ignore-silenced
     -e, --export
     -o, --output FILE
         --no-color
         --no-delete
         --debug
+        --datadog-timeout TIMEOUT
     -h, --help
 ```
 
