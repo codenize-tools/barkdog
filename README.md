@@ -66,6 +66,7 @@ monitor "Check load avg", :type=>"metric alert" do
   message "@winebarrel@example.net"
   options do
     locked false
+    new_host_delay 300
     notify_no_data true
     no_data_timeframe 2
     notify_audit true
@@ -82,6 +83,7 @@ template "cpu template" do
   message context.message
   options do
     locked false
+    new_host_delay 300
     notify_no_data true
     no_data_timeframe 2
     notify_audit true
