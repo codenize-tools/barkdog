@@ -9,6 +9,7 @@ describe Barkdog::Client do
         message "metric check message"
         options do
           locked false
+          new_host_delay 300
           no_data_timeframe 2
           notify_audit false
           notify_no_data false
@@ -21,6 +22,7 @@ describe Barkdog::Client do
         message "service check message"
         options do
           locked false
+          new_host_delay 300
           no_data_timeframe 2
           notify_audit false
           notify_no_data true
@@ -41,6 +43,7 @@ describe Barkdog::Client do
         message "metric check message2"
         options do
           locked false
+          new_host_delay 300
           no_data_timeframe 3
           notify_audit true
           notify_no_data true
@@ -53,6 +56,7 @@ describe Barkdog::Client do
         message "service check message2"
         options do
           locked false
+          new_host_delay 300
           no_data_timeframe 3
           notify_audit true
           notify_no_data true
