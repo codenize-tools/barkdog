@@ -56,7 +56,15 @@ class Barkdog::Client
 
     Barkdog::FIXED_OPTION_KEYS.each do |key|
       if expected[key] != actual[key]
+        diffy = Diffy::Diff.new(
+          "#{key}: #{actual[key].inspect}\n",
+          "#{key}: #{expected[key].inspect}\n",
+          :diff => "-u"
+        )
+
         log(:warn, "#{name}: `#{key}` can not be changed (Changes has been ignored)", :color => :yellow)
+        log(:info, diffy.to_s(@options[:color] ? :color : :text), :color => false)
+
         return updated
       end
     end
