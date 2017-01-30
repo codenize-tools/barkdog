@@ -55,6 +55,7 @@ Usage: barkdog [options]
         --no-delete
         --debug
         --datadog-timeout TIMEOUT
+        --fail-if-empty
     -h, --help
 ```
 
