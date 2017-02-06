@@ -25,6 +25,7 @@ class Barkdog::DSL::Converter
     fixed_options = Hash[Barkdog::FIXED_OPTION_KEYS.map {|k| [k.to_sym, attrs[k]] }]
     query = attrs['query']
     message = attrs['message']
+    tags = attrs['tags'] || []
     monitor_options = attrs['options'] || {}
 
     if monitor_options.empty?
@@ -33,10 +34,17 @@ class Barkdog::DSL::Converter
       monitor_options = "\n" + output_monitor_options(monitor_options)
     end
 
+    if tags.empty?
+      tags_output = ''
+    else
+      tags_output = "\n  tags #{tags.inspect}"
+    end
+
     <<-EOS
 monitor #{monitor_name.inspect}, #{unbrace(fixed_options.inspect)} do
   query #{query.inspect}
   message #{message.inspect}#{
+  tags_output}#{
   monitor_options}
 end
     EOS
