@@ -53,6 +53,7 @@ Usage: barkdog [options]
     -o, --output FILE
         --no-color
         --no-delete
+        --delete-only-tagged TAG
         --debug
         --datadog-timeout TIMEOUT
     -h, --help

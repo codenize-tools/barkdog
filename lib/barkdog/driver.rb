@@ -36,6 +36,11 @@ class Barkdog::Driver
   def delete_monitor(name, attrs)
     return false if @options[:no_delete]
 
+    # If restricting deletions to a tag, validate the tag
+    if @options[:delete_tagged]
+      return false unless attrs['tags'].include?(@options[:delete_tagged])
+    end
+
     updated = false
     log(:info, "Delete Monitor: #{name}", :color => :red)
 
