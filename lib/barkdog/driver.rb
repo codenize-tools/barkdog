@@ -14,13 +14,16 @@ class Barkdog::Driver
       attrs['options'].delete('silenced')
     end
 
+    tags = attrs['tags'] || []
+
     unless @options[:dry_run]
       _, response = @dog.monitor(
         attrs['type'],
         attrs['query'],
         :name => name,
         :message => attrs['message'],
-        :options => attrs['options']
+        :options => attrs['options'],
+        :tags => tags
       )
 
       validate_response(response)
@@ -32,6 +35,11 @@ class Barkdog::Driver
 
   def delete_monitor(name, attrs)
     return false if @options[:no_delete]
+
+    # If restricting deletions to a tag, validate the tag
+    if @options[:delete_tagged]
+      return false unless attrs['tags'].include?(@options[:delete_tagged])
+    end
 
     updated = false
     log(:info, "Delete Monitor: #{name}", :color => :red)
@@ -69,7 +77,8 @@ class Barkdog::Driver
           expected['query'],
           :name => name,
           :message => expected['message'],
-          :options => expected['options']
+          :options => expected['options'],
+          :tags => expected['tags']
         )
 
         validate_response(response)

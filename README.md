@@ -53,6 +53,7 @@ Usage: barkdog [options]
     -o, --output FILE
         --no-color
         --no-delete
+        --delete-only-tagged TAG
         --debug
         --datadog-timeout TIMEOUT
     -h, --help
@@ -64,6 +65,7 @@ Usage: barkdog [options]
 monitor "Check load avg", :type=>"metric alert" do
   query "avg(last_5m):avg:ddstat.load_avg.1m{host:i-XXXXXXXX} > 1"
   message "@winebarrel@example.net"
+  tags ["load", "host", "example"]
   options do
     locked false
     new_host_delay 300

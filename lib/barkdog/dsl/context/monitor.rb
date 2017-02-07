@@ -20,6 +20,10 @@ class Barkdog::DSL::Context::Monitor
     @result['message'] = value.to_s
   end
 
+  def tags(value)
+    @result['tags'] = value.to_a
+  end
+
   def options(&block)
     @result['options'] = Barkdog::DSL::Context::Monitor::Options.new(@context, &block).result
   end
