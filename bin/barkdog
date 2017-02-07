@@ -23,7 +23,8 @@ options = {
   :ignore_silenced => false,
   :color           => true,
   :debug           => false,
-  :datadog_timeout => nil
+  :datadog_timeout => nil,
+  :fail_if_empty   => false
 }
 
 ARGV.options do |opt|
@@ -41,6 +42,7 @@ ARGV.options do |opt|
     opt.on(''  , '--delete-only-tagged TAG')  {|v| options[:delete_tagged]    = v        }
     opt.on(''  , '--debug')                   {    options[:debug]            = true     }
     opt.on(''  , '--datadog-timeout TIMEOUT') {|v| options[:datadog_timeout]  = v.to_i   }
+    opt.on(''  , '--fail-if-empty')           {    options[:fail_if_empty]    = false    }
 
     opt.on('-h', '--help') do
       puts opt.help

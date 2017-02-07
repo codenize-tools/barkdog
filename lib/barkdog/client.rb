@@ -28,6 +28,9 @@ class Barkdog::Client
   def walk(file)
     expected = load_file(file)
     actual = Barkdog::Exporter.export(@dog, @options)
+    if actual.empty? && @options[:fail_if_empty]
+      raise 'Zero existing monitors reported, failing as --fail-if-empty is set'
+    end
     walk_monitors(expected, actual)
   end
 

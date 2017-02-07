@@ -56,6 +56,7 @@ Usage: barkdog [options]
         --delete-only-tagged TAG
         --debug
         --datadog-timeout TIMEOUT
+        --fail-if-empty
     -h, --help
 ```
 
